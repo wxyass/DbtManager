@@ -1,0 +1,35 @@
+<resources>
+
+    <!--缓冲页面-->
+    <style name="loading_dialog" parent="@android:style/Theme.Dialog">
+        <!--去掉边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--悬浮-->
+        <item name="android:windowIsFloating">true</item>
+        <!--半透明-->
+        <item name="android:windowIsTranslucent">false</item>
+        <!--不需要标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!--背景透明-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--允许模糊-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--全屏幕-->
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <!-- 多选弹窗上标题中的文字 -->
+    <style name="dialog_text_title" >
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- ListView上每个item的背景色 -->
+    <style name="lv_bg_item">
+        <item name="android:background">@color/bg_lv_item</item>
+        <item name="android:minHeight">50dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+</resources>

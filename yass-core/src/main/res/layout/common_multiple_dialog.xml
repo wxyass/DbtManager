@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#3da12c"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/common_multiple_bt_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bt_cancel" />
+
+        <TextView
+            android:id="@+id/common_multiple_tv_title"
+            style="@style/dialog_text_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:text="@string/title_text" />
+
+        <Button
+            android:id="@+id/common_multiple_bt_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bt_confirm" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/common_multiple_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@color/bg_lv_item"
+        android:divider="@color/listview_line"
+        android:dividerHeight="1dp" >
+    </ListView>
+
+</LinearLayout>

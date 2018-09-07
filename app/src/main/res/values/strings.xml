@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">DbtManager</string>
+
+    <!--   工具类  tag -->
+    <item type="id" name="tag_viewholder"></item>
+    <item type="id" name="tag_listdata"></item>
+    <item type="id" name="tag_viewclick"></item>
+
+    <!-- 登录 -->
+    <string name="login_uid">主管号：</string>
+    <string name="login_pwd">密    码：</string>
+    <string name="login_uid_hint">请输入工号</string>
+    <string name="login_pwd_hint">请输入密码</string>
+    <string name="login_msg_fail">登录失败</string>
+    <string name="login_msg_invaluid">用户名不能为空</string>
+    <string name="login_msg_invalpwd">密码不能为空</string>
+    <string name="login_msg_invaluser">请先清除上次登录账户的缓存数据</string>
+    <string name="login_msg_invalgrid">用户所属定格变更，请先清除上次登录账户的缓存数据</string>
+    <string name="login_msg_invaldate">系统时间误差较大，请调整系统时间</string>
+    <string name="login_msg_usererror">用户信息异常，不能正常登录</string>
+    <string name="login_msg_progress">登录中...</string>
+    <string name="login_msg_online">登录成功</string>
+    <string name="login_msg_offline">离线登录成功</string>
+    <string name="login_msg_offline_manager">主管登录成功</string>
+    <string name="login_msg_pwdfail">登录失败，确认用户名及密码。</string>
+    <string name="login_msg_userice">该用户已离职或冻结！</string>
+    <string name="login_msg_device">该设备已冻结！</string>
+    <string name="login_msg_nogrid">未分配定格，请联系管理员。</string>
+    <string name="msg_err_netfail">网络请求失败</string>
+</resources>

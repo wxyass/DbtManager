@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/ll_net_container"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_app"
+              android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/web_fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        />
+
+    <WebView
+        android:id="@+id/main_webview"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

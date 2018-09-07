@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- listview的条目背景色 -->
+    <color name="bg_lv_item">#f8f8f9</color>
+    <!-- listview列表中横竖线的颜色值 -->
+    <color name="listview_line">#dedcda</color>
+</resources>
