@@ -146,14 +146,16 @@ public class LoginService {
                     @Override
                     public void onError(int code, String msg) {
                         // 离线逻辑
-                        offLineLogin(username, pwd);
+                        //offLineLogin(username, pwd);
+                        sendMsg(R.string.msg_err_netfail, false, "登录失败不需要改密码");
                     }
                 })
                 .failure(new IFailure() {
                     @Override
                     public void onFailure() {
                         // 离线逻辑
-                        offLineLogin(username, pwd);
+                        //offLineLogin(username, pwd);
+                        sendMsg(R.string.msg_err_netfail, false, "登录失败不需要改密码");
                     }
                 })
                 .builde()

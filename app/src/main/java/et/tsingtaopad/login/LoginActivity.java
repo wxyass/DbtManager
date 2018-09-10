@@ -146,51 +146,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         String msg1 = bundle.getString("msg", "登录");//登录信息
         String isrepassword = bundle.getString("isrepassword", "111111");//还有多少天需更改密码
         if (isSuccess) {
-            /**
-             * 此处做跳转前判断 主界面/修改密码界面
-             *
-             * 1 原始密码-->需修改-->跳到修改密码界面
-             * 2 密码不是8位-->需修改-->跳到修改密码界面
-             * 3 密码不是数字加英文组合-->需修改-->跳到修改密码界面
-             * 4 后台要求修改-->需修改-->跳到修改密码界面
-             * 5 后台不要求修改-->不修改-->跳到主界面
-             */
-
-
-            if ("a1234567".equals(PrefUtils.getString(LoginActivity.this, "userPwd", ""))) {
-                // 1 原始密码-->需修改  // 跳到修改密码界面
-                Toast.makeText(Latte.getApplicationContext(), "请先修改原始密码", Toast.LENGTH_SHORT).show();
-                startActivityTo("RepasswordActivity");
-
-            } else if (PrefUtils.getString(getApplicationContext(), "userPwd", "").length() < 8) {
-                // 2 密码不是8位-->需修改-->跳到修改密码界面 // 跳到修改密码界面
-                Toast.makeText(getBaseContext(), "密码少于8位,请先修改密码", Toast.LENGTH_SHORT).show();
-                startActivityTo("RepasswordActivity");
-
-            } else if (!PrefUtils.getString(getApplicationContext(), "userPwd", "").matches("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$")) {
-                // 3 密码不是数字加英文组合-->需修改-->跳到修改密码界面 // 跳到修改密码界面
-                Toast.makeText(getBaseContext(), "密码不是数字加英文组合,请先修改密码", Toast.LENGTH_SHORT).show();
-                startActivityTo("RepasswordActivity");
-
-            } else { // 4 后台要求修改-->需修改-->跳到修改密码界面
-                if (Integer.parseInt(isrepassword) >= 10) {// 密码时间大于10天
-                    // 跳到主界面
-                    Toast.makeText(getBaseContext(), bundle.getString("msg"), Toast.LENGTH_SHORT).show();
-                    startActivityTo("MainActivity");
-                } else if (Integer.parseInt(isrepassword) > 0 && Integer.parseInt(isrepassword) < 10) {// 大于0小于10
-                    // 跳到主界面
-                    Toast.makeText(getBaseContext(), "登录成功,密码还有" + isrepassword + "天到期,请及时修改", Toast.LENGTH_LONG).show();
-                    startActivityTo("MainActivity");
-                } else if ("11000".equals(isrepassword)) {// 离线登录
-                    // 跳到主界面
-                    Toast.makeText(getBaseContext(), msg1, Toast.LENGTH_SHORT).show();
-                    startActivityTo("MainActivity");
-                } else {
-                    // 跳到修改密码界面
-                    Toast.makeText(getBaseContext(), "密码需要最少3个月换一次", Toast.LENGTH_SHORT).show();
-                    startActivityTo("RepasswordActivity");
-                }
-            }
+            // 跳到主界面
+            Toast.makeText(getBaseContext(), bundle.getString("msg"), Toast.LENGTH_SHORT).show();
+            startActivityTo("MainActivity");
         } else {
             // 登录失败 提示信息
             Toast.makeText(Latte.getApplicationContext(), bundle.getString("msg"), Toast.LENGTH_SHORT).show();

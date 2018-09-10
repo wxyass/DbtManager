@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DbtManager</string>
+    <string name="app_name">DBT.Manager</string>
 
     <!--   工具类  tag -->
     <item type="id" name="tag_viewholder"></item>
