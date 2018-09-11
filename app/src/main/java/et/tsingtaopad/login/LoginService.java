@@ -111,8 +111,8 @@ public class LoginService {
 
         RestClient.builder()
                 .url(PropertiesUtil.getProperties("platform_ip"))
-                //.params("datatest", jsonZip)
-                .params("data", jsonZip)
+                .params("datatest", jsonZip)
+                //.params("data", jsonZip)
                 // .loader(LoginActivity.this)
                 .success(new ISuccess() {
                     @Override

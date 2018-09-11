@@ -3,6 +3,8 @@ package et.tsingtaopad.main;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,9 +20,13 @@ import com.core.ui.loader.LatteLoader;
 import com.core.utils.dbtutil.PrefUtils;
 import com.core.web.WebDelegateImpl;
 
+import java.lang.ref.SoftReference;
+
 import et.tsingtaopad.R;
 import et.tsingtaopad.base.BaseFragment;
 import et.tsingtaopad.base.BaseMainFragment;
+import et.tsingtaopad.version.DownApkFragment;
+import et.tsingtaopad.version.VersionService;
 
 
 /**
@@ -32,14 +38,13 @@ public class MainFragment extends BaseMainFragment implements View.OnClickListen
 
     WebView webView;
     FrameLayout fl_container;
+    private VersionService versionService;
 
     public MainFragment() {
     }
 
     public static MainFragment newInstance() {
-
         Bundle args = new Bundle();
-
         MainFragment fragment = new MainFragment();
         fragment.setArguments(args);
         return fragment;
@@ -63,43 +68,30 @@ public class MainFragment extends BaseMainFragment implements View.OnClickListen
     private void initView(View view) {
         fl_container = (FrameLayout) view.findViewById(R.id.web_fl_container);
         webView = (WebView) view.findViewById(R.id.main_webview);
-
     }
 
     // 加载数据
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        /*if(findChildFragment(LowFragment.class)==null){
-            // loadRootFragment(R.id.fl_first_container, FirstHomeFragment.newInstance());
-        }*/
-
-        /*if (findChildFragment(WebDelegateImpl.class) == null) {
-            initData();
-        }*/
 
         //initData();
 
         String preurl = PrefUtils.getString(_mActivity,"tel","");
-        //String username = PrefUtils.getString(_mActivity,"userName","");
         if(!TextUtils.isEmpty(preurl)){
-            //WebDelegateImpl webDelegate = WebDelegateImpl.create(preurl+"&"+username);
             WebDelegateImpl webDelegate = WebDelegateImpl.create(preurl);
-            //WebDelegateImpl webDelegate = WebDelegateImpl.create("http://wxyass.com");
-            //webDelegate.setTopDelegate(this);
             loadRootFragment(R.id.web_fl_container, webDelegate);
         }else{
             Toast.makeText(_mActivity,"不能识别用户",Toast.LENGTH_SHORT).show();
         }
 
+        // 检查版本
+
 
     }
 
+    // 加载原始webview
     private void initData() {
-        /*WebDelegateImpl webDelegate = WebDelegateImpl.create("http://cms.tsingtao.com.cn:8001/da/ww/index.html?areaId=1-4JF0&userId=2060471");
-        webDelegate.setTopDelegate(this);
-        loadRootFragment(R.id.web_fl_container, webDelegate);*/
-
         // 设置WebView的客户端
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -148,7 +140,6 @@ public class MainFragment extends BaseMainFragment implements View.OnClickListen
 
         if (webView != null) {
             webView.loadUrl("http://cms.tsingtao.com.cn:8001/da/ww/index.html?areaId=1-4JF0&userId=2060471");
-
             webView.reload();
         }
     }
@@ -167,4 +158,63 @@ public class MainFragment extends BaseMainFragment implements View.OnClickListen
         super.onSupportVisible();
 
     }
+
+    /**
+     * 接收子线程消息的 Handler
+     */
+    public static class MyHandler extends Handler {
+
+        // 软引用
+        SoftReference<MainFragment> fragmentRef;
+
+        public MyHandler(MainFragment fragment) {
+            fragmentRef = new SoftReference<MainFragment>(fragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            MainFragment fragment = fragmentRef.get();
+            if (fragment == null) {
+                return;
+            }
+
+            // 处理UI 变化
+            switch (msg.what) {
+                /*case SHOWDOWNLOADDIALOG:
+                    fragment.showDownloadDialog();
+                    break;
+                case UPDATEDOWNLOADDIALOG: // 督导输入数据后
+                    fragment.showDownloading(msg);
+                    break;
+                case DOWNLOADFINISHED: // 督导输入数据后
+                    fragment.stopDownloadDialog();
+                    break;*/
+                case ConstValues.WAIT5: // 升级进度弹窗
+                    Bundle bundle = msg.getData();
+                    String apkUrl = (String) bundle.getSerializable("apkUrl");
+                    String apkName = (String) bundle.getSerializable("apkName");
+                    fragment.startFrag(apkUrl,apkName);
+                    break;
+                case ConstValues.WAIT6: // 无需升级
+                    fragment.showToa();
+                    break;
+            }
+        }
+    }
+
+    private void showToa() {
+        Toast.makeText(getActivity(), "已是最新版本,无需更新", Toast.LENGTH_SHORT).show();
+    }
+
+    private void startFrag(String apkUrl,String apkName) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("apkUrl", apkUrl);//
+        bundle.putString("apkName", apkName);//
+        DownApkFragment downApkFragment = new DownApkFragment();
+        downApkFragment.setArguments(bundle);
+        // changeHomeFragment(downApkFragment, "downapkfragment");
+        start(downApkFragment);
+    }
+
 }
