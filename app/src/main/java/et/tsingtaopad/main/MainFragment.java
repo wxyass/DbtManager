@@ -27,6 +27,7 @@ import et.tsingtaopad.base.BaseFragment;
 import et.tsingtaopad.base.BaseMainFragment;
 import et.tsingtaopad.version.DownApkFragment;
 import et.tsingtaopad.version.VersionService;
+import me.yokeyword.fragmentation.SupportFragment;
 
 
 /**
@@ -38,7 +39,10 @@ public class MainFragment extends BaseMainFragment implements View.OnClickListen
 
     WebView webView;
     FrameLayout fl_container;
+
+    // 升级
     private VersionService versionService;
+    MyHandler handler;
 
     public MainFragment() {
     }
@@ -75,8 +79,10 @@ public class MainFragment extends BaseMainFragment implements View.OnClickListen
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
 
-        //initData();
+        handler = new MyHandler(this);
+        versionService = new VersionService(getActivity(), handler);
 
+        //initData();
         String preurl = PrefUtils.getString(_mActivity,"tel","");
         if(!TextUtils.isEmpty(preurl)){
             WebDelegateImpl webDelegate = WebDelegateImpl.create(preurl);
@@ -85,9 +91,9 @@ public class MainFragment extends BaseMainFragment implements View.OnClickListen
             Toast.makeText(_mActivity,"不能识别用户",Toast.LENGTH_SHORT).show();
         }
 
-        // 检查版本
-
-
+        // 请求是否需要升级
+        //startFrag("http://oss.wxyass.com/tscs2.4.3.1.0.apk","tscs2.4.3.1.0.apk");
+        // isDownloadApk();
     }
 
     // 加载原始webview
@@ -180,23 +186,14 @@ public class MainFragment extends BaseMainFragment implements View.OnClickListen
 
             // 处理UI 变化
             switch (msg.what) {
-                /*case SHOWDOWNLOADDIALOG:
-                    fragment.showDownloadDialog();
-                    break;
-                case UPDATEDOWNLOADDIALOG: // 督导输入数据后
-                    fragment.showDownloading(msg);
-                    break;
-                case DOWNLOADFINISHED: // 督导输入数据后
-                    fragment.stopDownloadDialog();
-                    break;*/
-                case ConstValues.WAIT5: // 升级进度弹窗
+                case ConstValues.WAIT5: // 弹出升级进度弹窗
                     Bundle bundle = msg.getData();
                     String apkUrl = (String) bundle.getSerializable("apkUrl");
                     String apkName = (String) bundle.getSerializable("apkName");
                     fragment.startFrag(apkUrl,apkName);
                     break;
-                case ConstValues.WAIT6: // 无需升级
-                    fragment.showToa();
+                case ConstValues.WAIT6: // 已是最新版本,无需更新
+                    // fragment.showToa();
                     break;
             }
         }
@@ -206,15 +203,24 @@ public class MainFragment extends BaseMainFragment implements View.OnClickListen
         Toast.makeText(getActivity(), "已是最新版本,无需更新", Toast.LENGTH_SHORT).show();
     }
 
+    // 跳转有问题
     private void startFrag(String apkUrl,String apkName) {
-
         Bundle bundle = new Bundle();
         bundle.putString("apkUrl", apkUrl);//
         bundle.putString("apkName", apkName);//
         DownApkFragment downApkFragment = new DownApkFragment();
         downApkFragment.setArguments(bundle);
-        // changeHomeFragment(downApkFragment, "downapkfragment");
-        start(downApkFragment);
+        //((SupportFragment)getParentFragment()).start(downApkFragment);
+        loadRootFragment(R.id.web_fl_container, downApkFragment);
+    }
+
+    // 请求是否需要升级
+    private void isDownloadApk() {
+        // 获取是否需要升级
+        String departmentid = PrefUtils.getString(getActivity(), "departmentid", "");
+        String userid = PrefUtils.getString(getActivity(), "userid", "");
+        String usercode = PrefUtils.getString(getActivity(), "usercode", "");
+        versionService.getUrlData(departmentid,userid,usercode);
     }
 
 }

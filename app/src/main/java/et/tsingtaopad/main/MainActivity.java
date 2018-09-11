@@ -26,6 +26,7 @@ public class MainActivity extends BaseActivity {
         if (findFragment(MainFragment.class) == null) {
            loadRootFragment(R.id.fl_container, new MainFragment());
         }
+
     }
 
     @Override

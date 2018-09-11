@@ -25,7 +25,8 @@ import retrofit2.Response;
 public class DownloadHandler {
 
     private final String URL;// 请求网址
-    private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();// 请求参数
+    // private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();// 请求参数
+    private static final WeakHashMap<String, Object> PARAMS = new WeakHashMap<>();// 请求参数
     private final IRequest REQUEST;
     private final String DOWNLOAD_DIR;// 文件下载路径
     private final String EXTENSION;// 后缀名

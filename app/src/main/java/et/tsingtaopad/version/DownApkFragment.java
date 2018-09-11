@@ -57,8 +57,8 @@ public class DownApkFragment extends BaseFragment {
     public static final int DOWNLOADFINISHED = 66;// 下载完成开始安装 //下载完成后进行的操作
 
 
-    // String apkUrl = "http://oss.wxyass.com/tscs2.4.3.1.0.apk";
-    String apkUrl = "http://192.168.0.222/FSA_WEB_2/file/upload/apk/tscs2.4.3.7.3.apk";
+    String apkUrl = "http://oss.wxyass.com/tscs2.4.3.1.0.apk";
+    //String apkUrl = "http://192.168.0.222/FSA_WEB_2/file/upload/apk/tscs2.4.3.7.3.apk";
     String apkName = "tscs2.4.3.1.0.apk";
     String downPath = "dbt";// apk的存放位置
 
@@ -79,25 +79,18 @@ public class DownApkFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         handler = new MyHandler(this);
         initData();
     }
 
     // 初始化数据
     private void initData() {
-
         // 获取传递过来的数据
         Bundle bundle = getArguments();
         apkUrl = bundle.getString("apkUrl");
         apkName = bundle.getString("apkName");
-        // apkUrl = "http://oss.wxyass.com/tscs2.4.3.1.0.apk";
-        // apkUrl = "http://192.168.0.222/FSA_WEB_2/file/upload/apk/tscs.apk";
-
-
-
+        // 弹窗确定下载
         showNoticeDialog();
-
     }
 
     private Dialog noticeDialog;
@@ -149,13 +142,13 @@ public class DownApkFragment extends BaseFragment {
 
             // 处理UI 变化
             switch (msg.what) {
-                case SHOWDOWNLOADDIALOG:
+                case SHOWDOWNLOADDIALOG:// 弹出进度条,设置最大值100 //显示正在下载的对话框
                     fragment.showDownloadDialog();
                     break;
-                case UPDATEDOWNLOADDIALOG: // 督导输入数据后
+                case UPDATEDOWNLOADDIALOG: // 设置进度条  //刷新正在下载对话框的内容
                     fragment.showDownloading(msg);
                     break;
-                case DOWNLOADFINISHED: // 督导输入数据后
+                case DOWNLOADFINISHED: // 下载完成开始安装 //下载完成后进行的操作
                     fragment.stopDownloadDialog(msg);
                     break;
             }
